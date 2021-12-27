@@ -7,8 +7,8 @@ class Connection {
 	public static function getDb() {
 		try {
 
-			$conn = new \PDO(
-				"mysql:host=localhost;dbname=mvc;charset=utf8",
+			$conn = new \PDO(//Não lembro o porque dessa barra '/', acho que é pra identificar q o PDO é da raiz PHP, algo assim, que é nativo php.
+				"mysql:host=localhost;dbname=twitter_clone;charset=utf8",
 				"root",
 				"" 
 			);

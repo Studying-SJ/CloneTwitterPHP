@@ -5,8 +5,9 @@
 	},
 	"authors": [
 		{
-			"name": "Jorge Sant Ana",
-			"email": "jorge@teste.com.br"
+			"name": "Samuel Jesus",
+			"email": "samuel.jesan2018@gmail.com",
+			"from": "Jorge Sant' Ana"
 		}
 	],
 	"autoload": {
