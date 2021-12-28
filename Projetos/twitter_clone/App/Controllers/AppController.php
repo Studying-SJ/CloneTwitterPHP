@@ -11,17 +11,67 @@ class AppController extends Action {
 
 	public function timeline() {
 
-		session_start();
+		$this->validaAutenticacao();
+			
+		//recuperação dos tweets
+		$tweet = Container::getModel('Tweet');
 
+		$tweet->__set('id_usuario', $_SESSION['id']);
 
-		if($_SESSION['id'] != '' && $_SESSION['nome'] != '') {
-			$this->render('timeline');
-		} else {
-			header('Location: /?login=erro');
-		}
+		$tweets = $tweet->getAll();
 
+		$this->view->tweets = $tweets;
+
+		$this->render('timeline');
+		
 		
 	}
+
+	public function tweet() {
+
+		$this->validaAutenticacao();
+
+		$tweet = Container::getModel('Tweet');
+
+		$tweet->__set('tweet', $_POST['tweet']);
+		$tweet->__set('id_usuario', $_SESSION['id']);
+
+		$tweet->salvar();
+
+		header('Location: /timeline');
+		
+	}
+
+	public function validaAutenticacao() {
+
+		session_start();
+
+		if(!isset($_SESSION['id']) || $_SESSION['id'] == '' || !isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
+			header('Location: /?login=erro');
+		}	
+
+	}
+
+	public function quemSeguir() {
+
+		$this->validaAutenticacao();
+
+		$pesquisarPor = isset($_GET['pesquisarPor']) ? $_GET['pesquisarPor'] : '';
+		
+		$usuarios = array();
+
+		if($pesquisarPor != '') {
+			
+			$usuario = Container::getModel('Usuario');
+			$usuario->__set('nome', $pesquisarPor);
+			$usuarios = $usuario->getAll();
+
+		}
+
+		$this->view->usuarios = $usuarios;
+
+		$this->render('quemSeguir');
+	}	
 }
 
 ?>
